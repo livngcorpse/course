@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - Course Syllabus Repository{% endblock %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+<script>
+    setTimeout(function() {
+        window.location.href = "/login";
+    }, 2000);
+</script>
+<p>Redirecting to login...</p>
+{% endif %}
+    <style>
+        .profile-container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-mode .profile-container {
+            background: #1e1e1e;
+            color: white;
+        }
+
+        h2 {
+            color: #004080;
+        }
+
+        body.dark-mode h2 {
+            color: #66b2ff;
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #004080;
+        }
+
+        body.dark-mode .profile-picture {
+            border-color: #66b2ff;
+        }
+
+        .profile-form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-form label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .profile-form input {
+            width: 90%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-mode .profile-form input {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+        }
+
+        .edit-btn {
+            margin-top: 15px;
+            padding: 10px;
+            background: #004080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: #0055aa;
+        }
+
+        .save-btn {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            background: #008000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover {
+            background: #00aa00;
+        }
+    </style>
+
+    <div class="profile-container">
+        <h2>👤 My Profile</h2>
+
+        <!-- Profile Picture -->
+        <img src="https://via.placeholder.com/120" alt="Profile Picture" class="profile-picture" id="profile-pic">
+        <br>
+        <input type="file" id="profile-upload" accept="image/*" style="display: none;" onchange="updateProfilePicture()">
+        <button class="edit-btn" onclick="document.getElementById('profile-upload').click();">📷 Change Photo</button>
+
+        <!-- Profile Details -->
+        <form class="profile-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" value="{{ user.username }}" disabled>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" value="{{ user.email }}" disabled>
+
+            <label for="role">Role:</label>
+            <input type="text" id="role" value="{{ user.role }}" disabled>
+
+            <button type="button" class="edit-btn" onclick="enableEditing()">✏ Edit Profile</button>
+            <button type="submit" class="save-btn" onclick="saveChanges(event)">💾 Save Changes</button>
+        </form>
+    </div>
+
+    <script>
+        function enableEditing() {
+            document.getElementById('username').disabled = false;
+            document.getElementById('email').disabled = false;
+            document.querySelector('.edit-btn').style.display = 'none';
+            document.querySelector('.save-btn').style.display = 'block';
+        }
+
+        function saveChanges(event) {
+            event.preventDefault();
+            alert("Profile updated successfully! (Backend integration required)");
+        }
+
+        function updateProfilePicture() {
+            var fileInput = document.getElementById('profile-upload');
+            var profilePic = document.getElementById('profile-pic');
+
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    profilePic.src = e.target.result;
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+    </script>
+{% endblock %}

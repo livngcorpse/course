@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Course Syllabus Repository{% endblock %}
+
+{% block content %}
+    <style>
+        .settings-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        .settings-container h2 {
+            text-align: center;
+            color: #004080;
+        }
+        .setting-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 18px;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 34px;
+            transition: 0.4s;
+        }
+        .slider::before {
+            content: "";
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+        input:checked + .slider {
+            background-color: #004080;
+        }
+        input:checked + .slider::before {
+            transform: translateX(26px);
+        }
+        .save-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            background-color: #004080;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .save-btn:hover {
+            background-color: #002d5a;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <div class="settings-container">
+        <h2>⚙️ Settings</h2>
+        
+        <div class="setting-option">
+            <span>Dark Mode</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="setting-option">
+            <span>Enable Notifications</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="notificationsToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <button class="save-btn">Save Settings</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let darkModeToggle = document.getElementById("darkModeToggle");
+    
+            // Load saved preference
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+                darkModeToggle.checked = true;
+            }
+    
+            // Toggle Dark Mode & Save Preference
+            darkModeToggle.addEventListener("change", function() {
+                if (this.checked) {
+                    document.body.classList.add("dark-mode");
+                    localStorage.setItem("darkMode", "enabled");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                    localStorage.setItem("darkMode", "disabled");
+                }
+            });
+        });
+    </script>
+    
+{% endblock %}

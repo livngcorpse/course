@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Requests - Course Syllabus Repository{% endblock %}
+
+{% block content %}
+    {% if not user.is_authenticated or user.role != "Admin" %}
+        <script>
+            window.location.href = "/login";
+        </script>
+    {% endif %}
+
+    <style>
+        .requests-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-mode .requests-container {
+            background: #1e1e1e;
+            color: white;
+        }
+
+        h2 {
+            color: #004080;
+        }
+
+        body.dark-mode h2 {
+            color: #66b2ff;
+        }
+
+        .requests-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .requests-table th, .requests-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        body.dark-mode .requests-table th, 
+        body.dark-mode .requests-table td {
+            border-color: #555;
+        }
+
+        .requests-table th {
+            background: #004080;
+            color: white;
+        }
+
+        body.dark-mode .requests-table th {
+            background: #002a5c;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .approve-btn {
+            background: #008000;
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background: #00aa00;
+        }
+
+        .reject-btn {
+            background: #cc0000;
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background: #ff3333;
+        }
+    </style>
+
+    <div class="requests-container">
+        <h2>📩 Pending Requests</h2>
+
+        <table class="requests-table">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>User</th>
+                    <th>Course</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>REQ001</td>
+                    <td>JohnDoe</td>
+                    <td>Data Structures</td>
+                    <td>CSE</td>
+                    <td>
+                        <button class="action-btn approve-btn" onclick="handleAction('approve', 'REQ001')">✅ Approve</button>
+                        <button class="action-btn reject-btn" onclick="handleAction('reject', 'REQ001')">❌ Reject</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>REQ002</td>
+                    <td>JaneSmith</td>
+                    <td>Digital Electronics</td>
+                    <td>ECE</td>
+                    <td>
+                        <button class="action-btn approve-btn" onclick="handleAction('approve', 'REQ002')">✅ Approve</button>
+                        <button class="action-btn reject-btn" onclick="handleAction('reject', 'REQ002')">❌ Reject</button>
+                    </td>
+                </tr>
+                <!-- More requests can be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function handleAction(action, requestId) {
+            if (action === 'approve') {
+                alert(`Request ${requestId} has been approved! (Backend integration required)`);
+            } else {
+                alert(`Request ${requestId} has been rejected! (Backend integration required)`);
+            }
+        }
+    </script>
+{% endblock %}

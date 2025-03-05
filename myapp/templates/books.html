@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Books - Course Syllabus Repository{% endblock %}
+
+{% block content %}
+    <style>
+        .coming-soon {
+            text-align: center;
+            padding: 50px;
+            font-size: 24px;
+            color: #004080;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .coming-soon img {
+            width: 300px;
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Dark Mode Styling */
+        body.dark-mode .about-container {
+            background: #1e1e1e;
+            color: white;
+        }
+    </style>
+
+    <div class="coming-soon">
+        <h1>📚 Books Section Coming Soon!</h1>
+        <p>Stay tuned for updates...</p>
+        <img src="https://via.placeholder.com/300?text=Coming+Soon" alt="Coming Soon">
+    </div>
+{% endblock %}

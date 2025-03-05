@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - Course Syllabus Repository{% endblock %}
+
+{% block content %}
+    <style>
+        .about-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Dark Mode Styling */
+        body.dark-mode .about-container {
+            background: #1e1e1e;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+            color: #004080;
+        }
+
+        body.dark-mode h2 {
+            color: #66b2ff;
+        }
+
+        .about-section {
+            margin-bottom: 20px;
+        }
+
+        .contact {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="about-container">
+        <h2>About Us</h2>
+
+        <div class="about-section">
+            <p>
+                Welcome to the **Course Syllabus Repository**, your one-stop platform for accessing and managing course syllabi.
+                We aim to provide students and faculty with an organized and efficient way to find academic resources.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h3>📌 Our Mission</h3>
+            <p>
+                Our mission is to simplify academic planning by offering easy access to updated syllabi.
+                We are dedicated to improving student learning experiences and faculty efficiency.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h3>📞 Contact Us</h3>
+            <p class="contact">✉ Email: support@syllabusrepo.com</p>
+            <p class="contact">📍 Location: Your College, City, Country</p>
+        </div>
+    </div>
+{% endblock %}

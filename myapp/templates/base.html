@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Course Syllabus Repository{% endblock %}</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: black;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: #121212;
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #004080;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .header .logo {
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+
+        .header .profile-icon {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 60px;
+            width: 250px;
+            height: 100%;
+            background: #003366;
+            padding-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: #0055aa;
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            margin-top: 70px;
+        }
+
+        /* Collapsible Sidebar */
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed a {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .toggle-btn {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        /* Dark Mode Toggle Switch */
+        .dark-mode-toggle {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .dark-mode-toggle input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Apply dark mode if previously enabled
+        if (localStorage.getItem("darkMode") === "enabled") {
+            document.body.classList.add("dark-mode");
+        }
+    </script>
+
+    <!-- Header -->
+    <div class="header">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <div class="logo">📘 Course Syllabus Repository</div>
+        <div class="profile-icon" onclick="location.href='{% if user.is_authenticated %}/profile{% else %}/login{% endif %}'">
+            👤
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <a href="/">🏠 Home</a>
+        <a href="/books">📚 Books</a>
+        <a href="/settings">⚙ Settings</a>
+        <a href="/about">ℹ About Us</a>
+        <a href="/feedback">💬 Feedback</a>
+        
+        <!-- Dark Mode Toggle -->
+        <div class="dark-mode-toggle">
+            <input type="checkbox" id="darkModeToggle">
+            <label for="darkModeToggle">🌙 Dark Mode</label>
+        </div>
+
+        {% if user.is_authenticated %}
+            {% if user.role == "Student" %}
+                <a href="/logout">🚪 Logout</a>
+            {% elif user.role == "Faculty" %}
+                <a href="/add_syllabus">➕ Add Syllabus</a>
+                <a href="/logout">🚪 Logout</a>
+            {% elif user.role == "Admin" %}
+                <a href="/requests">📩 Requests</a>
+                <a href="/upload">📤 Upload Syllabus</a>
+                <a href="/logout">🚪 Logout</a>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        // Dark Mode Toggle Functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            let darkModeToggle = document.getElementById("darkModeToggle");
+
+            // Load saved preference
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+                darkModeToggle.checked = true;
+            }
+
+            // Toggle Dark Mode & Save Preference
+            darkModeToggle.addEventListener("change", function() {
+                if (this.checked) {
+                    document.body.classList.add("dark-mode");
+                    localStorage.setItem("darkMode", "enabled");
+                } else {
+                    document.body.classList.remove("dark-mode");
+                    localStorage.setItem("darkMode", "disabled");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
