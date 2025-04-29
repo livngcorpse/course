@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Faculty Approval - Course Syllabus Repository{% endblock %}
+
+{% block content %}
+    <style>
+        .approval-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .approval-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .approval-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .approval-card p {
+            font-size: 18px;
+            color: #333;
+        }
+        .approval-card .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .approval-card button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            text-decoration: none;
+        }
+        .approve-btn {
+            background: #28a745;
+            color: white;
+        }
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+        }
+        .approval-card button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+
+    {% if request.user.role != "Admin" %}
+        <script>
+            window.location.href = "{% url 'home' %}";
+        </script>
+    {% endif %}
+
+    <h2>📝 Faculty Approval Requests</h2>
+
+    <div class="approval-container">
+        {% for faculty in pending_faculty %}
+            <div class="approval-card">
+                <p><strong>{{ faculty.username }}</strong> - Pending Approval</p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="faculty_id" value="{{ faculty.id }}">
+                    <div class="buttons">
+                        <button type="submit" name="approve" class="approve-btn">✅ Approve</button>
+                        <button type="submit" name="reject" class="reject-btn">❌ Reject</button>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

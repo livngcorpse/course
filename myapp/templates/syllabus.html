@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Syllabus - Course Syllabus Repository{% endblock %}
+
+{% block content %}
+    <style>
+        .syllabus-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .syllabus-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .syllabus-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .syllabus-card h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .syllabus-card .buttons {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .syllabus-card button, .syllabus-card a {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            text-decoration: none;
+            color: white;
+            text-align: center;
+        }
+        .preview-btn {
+            background: #ffaa00;
+        }
+        .download-btn {
+            background: #00aa00;
+        }
+        .syllabus-card button:hover, .syllabus-card a:hover {
+            transform: scale(1.1);
+        }
+    </style>
+
+    <h2>📚 Available Syllabi</h2>
+
+    <div class="syllabus-container">
+        {% for syllabus in syllabi %}
+            {% if syllabus.is_approved %}
+                <div class="syllabus-card">
+                    <h3>{{ syllabus.course_name }} - {{ syllabus.department }} - {{ syllabus.regulation }}</h3>
+                    <div class="buttons">
+                        <a href="{{ syllabus.file.url }}" target="_blank" class="preview-btn">👁 Preview</a>
+                        <a href="{{ syllabus.file.url }}" download class="download-btn">⬇ Download</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="syllabus-card">
+                    <h3>{{ syllabus.course_name }} - {{ syllabus.department }} - {{ syllabus.regulation }}</h3>
+                    <p>This syllabus is pending approval.</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

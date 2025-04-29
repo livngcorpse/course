@@ -135,6 +135,7 @@
         <a href="/settings">⚙ Settings</a>
         <a href="/about">ℹ About Us</a>
         <a href="/feedback">💬 Feedback</a>
+        <a href="/syllabus">   Syllabus</a>
         
         <!-- Dark Mode Toggle -->
         <div class="dark-mode-toggle">
@@ -146,15 +147,21 @@
             {% if user.role == "Student" %}
                 <a href="/logout">🚪 Logout</a>
             {% elif user.role == "Faculty" %}
-                <a href="/add_syllabus">➕ Add Syllabus</a>
+                <a href="/upload">➕ Add Syllabus</a>
                 <a href="/logout">🚪 Logout</a>
-            {% elif user.role == "Admin" %}
+            {% elif user.role == "Admin" or user.role == "Superadmin" %}
                 <a href="/requests">📩 Requests</a>
-                <a href="/upload">📤 Upload Syllabus</a>
+                <a href="/upload">➕ Add Syllabus</a>
                 <a href="/logout">🚪 Logout</a>
+                <a href="/superadmin_dashboard">   SuperUser</a>
             {% endif %}
         {% endif %}
     </div>
+
+    {% if request.user.is_superuser %}
+    <a href="{% url 'superadmin_dashboard' %}">👑 Superadmin Dashboard</a>
+    {% endif %}
+
 
     <!-- Main Content Area -->
     <div class="content">

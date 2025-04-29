@@ -3,118 +3,106 @@
 {% block title %}Feedback - Course Syllabus Repository{% endblock %}
 
 {% block content %}
-    <style>
-        .feedback-container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s, color 0.3s;
-        }
+<style>
+    .feedback-container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s, color 0.3s;
+    }
 
-        /* Dark Mode Styling */
-        body.dark-mode .feedback-container {
-            background: #1e1e1e;
-            color: white;
-        }
+    /* Dark Mode Styling */
+    body.dark-mode .feedback-container {
+        background: #1e1e1e;
+        color: white;
+    }
 
-        h2 {
-            text-align: center;
-            color: #004080;
-        }
+    h2 {
+        text-align: center;
+        color: #004080;
+    }
 
-        body.dark-mode h2 {
-            color: #66b2ff;
-        }
+    body.dark-mode h2 {
+        color: #66b2ff;
+    }
 
-        .feedback-form {
-            display: flex;
-            flex-direction: column;
-        }
+    .feedback-form {
+        display: flex;
+        flex-direction: column;
+    }
 
-        .feedback-form label {
-            font-weight: bold;
-            margin-top: 10px;
-        }
+    .feedback-form label {
+        font-weight: bold;
+        margin-top: 10px;
+    }
 
-        .feedback-form input,
-        .feedback-form select,
-        .feedback-form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: background 0.3s, color 0.3s;
-        }
+    .feedback-form input,
+    .feedback-form select,
+    .feedback-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: background 0.3s, color 0.3s;
+    }
 
-        body.dark-mode .feedback-form input,
-        body.dark-mode .feedback-form select,
-        body.dark-mode .feedback-form textarea {
-            background: #333;
-            color: white;
-            border: 1px solid #555;
-        }
+    body.dark-mode .feedback-form input,
+    body.dark-mode .feedback-form select,
+    body.dark-mode .feedback-form textarea {
+        background: #333;
+        color: white;
+        border: 1px solid #555;
+    }
 
-        .submit-btn {
-            margin-top: 15px;
-            padding: 10px;
-            background: #004080;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .submit-btn {
+        margin-top: 15px;
+        padding: 10px;
+        background: #004080;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-        .submit-btn:hover {
-            background: #0055aa;
-        }
+    .submit-btn:hover {
+        background: #0055aa;
+    }
 
-        .success-message {
-            text-align: center;
-            color: green;
-            font-weight: bold;
-            margin-top: 10px;
-            display: none;
-        }
-    </style>
+    .success-message {
+        text-align: center;
+        color: green;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
 
-    <div class="feedback-container">
-        <h2>💬 Submit Your Feedback</h2>
+<div class="feedback-container">
+    <h2>💬 Submit Your Feedback</h2>
 
-        <form class="feedback-form" onsubmit="submitFeedback(event)">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
+    {% if submitted %}
+        <p class="success-message">✅ Thank you for your feedback!</p>
+    {% endif %}
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+    <form method="post" class="feedback-form">
+        {% csrf_token %}
+        <label for="id_name">Name:</label>
+        {{ form.name }}
 
-            <label for="category">Category:</label>
-            <select id="category" name="category">
-                <option value="Suggestion">Suggestion</option>
-                <option value="Bug Report">Bug Report</option>
-                <option value="General Inquiry">General Inquiry</option>
-            </select>
+        <label for="id_email">Email:</label>
+        {{ form.email }}
 
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
+        <label for="id_category">Category:</label>
+        {{ form.category }}
 
-            <button type="submit" class="submit-btn">Submit Feedback</button>
-        </form>
+        <label for="id_message">Message:</label>
+        {{ form.message }}
 
-        <p class="success-message" id="successMessage">✅ Thank you for your feedback!</p>
-    </div>
-
-    <script>
-        function submitFeedback(event) {
-            event.preventDefault();
-            document.getElementById('successMessage').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('successMessage').style.display = 'none';
-            }, 3000);
-        }
-    </script>
+        <button type="submit" class="submit-btn">Submit Feedback</button>
+    </form>
+</div>
 {% endblock %}

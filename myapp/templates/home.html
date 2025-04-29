@@ -5,75 +5,102 @@
 {% block content %}
     <style>
         /* Navigation Menu Styles */
-        .filter-container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .filter-container select, .filter-container button {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .filter-container button {
-            background: #004080;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .filter-container button:hover {
-            background: #0055aa;
-        }
-        /* Syllabus Display */
-        .syllabus-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .syllabus-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        .syllabus-card:hover {
-            transform: scale(1.05);
-        }
-        .syllabus-card h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-        .syllabus-card .buttons {
-            margin-top: 10px;
-            display: flex;
-            gap: 10px;
-        }
-        .syllabus-card button {
-            padding: 8px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .preview-btn {
-            background: #ffaa00;
-        }
-        .download-btn {
-            background: #00aa00;
-            color: white;
-        }
-        /* Dark Mode Styling */
-        body.dark-mode .about-container {
-            background: #1e1e1e;
-            color: white;
-        }
+.filter-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Dropdown & Button Styling */
+.filter-container select, 
+.filter-container button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: black !important; /* Ensure text is visible */
+    background: white; /* Ensure background contrast */
+    appearance: none;
+}
+
+.filter-container button {
+    background: #004080;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.filter-container button:hover {
+    background: #0055aa;
+    transform: scale(1.05);
+}
+
+/* Syllabus Display */
+.syllabus-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Syllabus Cards */
+.syllabus-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.syllabus-card:hover {
+    transform: scale(1.05);
+}
+
+/* Card Headings */
+.syllabus-card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333; /* Darker text for better readability */
+}
+
+/* Button Container */
+.syllabus-card .buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Card Buttons */
+.syllabus-card button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.syllabus-card button:hover {
+    transform: scale(1.05);
+}
+
+/* Specific Button Colors */
+.preview-btn {
+    background: #ffaa00;
+    color: black;
+}
+
+.download-btn {
+    background: #00aa00;
+    color: white;
+}
+
     </style>
 
     <!-- Navigation Menu -->
@@ -90,6 +117,8 @@
             <option value="IT">IT</option>
             <option value="ECE">ECE</option>
             <option value="EEE">EEE</option>
+            <option value="MECH">MECH</option>
+            <option value="CIVIL">CIVIL</option>
         </select>
         <select id="year">
             <option value="">Select Year</option>
@@ -103,16 +132,44 @@
 
     <!-- Syllabus Display -->
     <div id="syllabus-list" class="syllabus-container">
-        <!-- Most visited syllabi (Before search) -->
-        <div class="syllabus-card">
-            <h3>R20 - CSE - 2nd Year</h3>
+        <!-- Default: Show all available syllabi -->
+        <div class="syllabus-card" data-reg="R17" data-dept="CSE" data-year="1st Year B.Tech">
+            <h3>R17 - CSE - 1st Year</h3>
             <div class="buttons">
                 <button class="preview-btn">👁 Preview</button>
                 <button class="download-btn">⬇ Download</button>
             </div>
         </div>
-        <div class="syllabus-card">
-            <h3>R23 - IT - 3rd Year</h3>
+        <div class="syllabus-card" data-reg="R20" data-dept="IT" data-year="2nd Year B.Tech">
+            <h3>R20 - IT - 2nd Year</h3>
+            <div class="buttons">
+                <button class="preview-btn">👁 Preview</button>
+                <button class="download-btn">⬇ Download</button>
+            </div>
+        </div>
+        <div class="syllabus-card" data-reg="R23" data-dept="ECE" data-year="3rd Year B.Tech">
+            <h3>R23 - ECE - 3rd Year</h3>
+            <div class="buttons">
+                <button class="preview-btn">👁 Preview</button>
+                <button class="download-btn">⬇ Download</button>
+            </div>
+        </div>
+        <div class="syllabus-card" data-reg="R17" data-dept="EEE" data-year="4th Year B.Tech">
+            <h3>R17 - EEE - 4th Year</h3>
+            <div class="buttons">
+                <button class="preview-btn">👁 Preview</button>
+                <button class="download-btn">⬇ Download</button>
+            </div>
+        </div>
+        <div class="syllabus-card" data-reg="R20" data-dept="MECH" data-year="1st Year B.Tech">
+            <h3>R20 - MECH - 1st Year</h3>
+            <div class="buttons">
+                <button class="preview-btn">👁 Preview</button>
+                <button class="download-btn">⬇ Download</button>
+            </div>
+        </div>
+        <div class="syllabus-card" data-reg="R23" data-dept="CIVIL" data-year="2nd Year B.Tech">
+            <h3>R23 - CIVIL - 2nd Year</h3>
             <div class="buttons">
                 <button class="preview-btn">👁 Preview</button>
                 <button class="download-btn">⬇ Download</button>
@@ -122,24 +179,52 @@
 
     <script>
         function filterSyllabus() {
-            const reg = document.getElementById("regulation").value;
-            const dept = document.getElementById("department").value;
-            const year = document.getElementById("year").value;
+    const reg = document.getElementById("regulation").value;
+    const dept = document.getElementById("department").value;
+    const year = document.getElementById("year").value;
 
-            if (reg && dept && year) {
-                document.getElementById("syllabus-list").innerHTML = `
-                    <div class="syllabus-card">
-                        <h3>${reg} - ${dept} - ${year}</h3>
-                        <div class="buttons">
-                            <button class="preview-btn">👁 Preview</button>
-                            <button class="download-btn">⬇ Download</button>
-                        </div>
-                    </div>
-                `;
-            } else {
-                alert("Please select all filters before searching.");
+    if (!reg || !dept || !year) {
+        alert("Please select all filters!");
+        return;
+    }
+
+    fetch(`/search-syllabus/?regulation=${encodeURIComponent(reg)}&department=${encodeURIComponent(dept)}&year=${encodeURIComponent(year)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
             }
-        }
-    </script>
+            return response.json();
+        })
+        .then(data => {
+            const syllabusList = document.getElementById("syllabus-list");
+            syllabusList.innerHTML = ""; // Clear previous results
+
+            if (data.syllabi && data.syllabi.length > 0) {
+                data.syllabi.forEach(syllabus => {
+                    syllabusList.innerHTML += `
+                        <div class="syllabus-card">
+                            <h3>${syllabus.regulation} - ${syllabus.department} - ${syllabus.year}</h3>
+                            <div class="buttons">
+                                <button class="preview-btn" onclick="window.open('${syllabus.preview_url}', '_blank')">👁 Preview</button>
+                                <button class="download-btn" onclick="window.location.href='${syllabus.download_url}'">⬇ Download</button>
+                            </div>
+                        </div>`;
+                });
+            } else {
+                syllabusList.innerHTML = `
+                    <p style="text-align: center; font-size: 18px; color: red;">
+                        🚨 Syllabus not uploaded yet 🚨
+                    </p>
+                    <div class="missing-dialog">
+                        <p>Want to request for missing syllabus?</p>
+                        <button onclick="requestSyllabus(true)">✅ Yes</button>
+                        <button onclick="requestSyllabus(false)">❌ No</button>
+                    </div>`;
+            }
+        })
+        .catch(error => console.error("Error fetching syllabus:", error));
+}
+
+    </script>    
 
 {% endblock %}

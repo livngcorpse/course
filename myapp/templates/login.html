@@ -14,7 +14,6 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* Dark Mode Support */
         body.dark-mode .login-container {
             background: #1e1e1e;
             color: white;
@@ -56,14 +55,13 @@
             border: 1px solid #555;
         }
 
-        /* Password Field */
         .password-container {
             position: relative;
         }
 
         .password-container input {
             width: 100%;
-            padding-right: 1px;
+            padding-right: 35px;
         }
 
         .toggle-password {
@@ -109,12 +107,58 @@
         body.dark-mode .extra-links a {
             color: #66b2ff;
         }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            display: none;
+            width: 300px;
+            z-index: 1000;
+        }
+
+        .popup button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            border: none;
+            background: #004080;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        .popup button:hover {
+            background: #0055aa;
+        }
+
+        body.dark-mode .popup {
+            background: #1e1e1e;
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+        }
     </style>
 
     <div class="login-container">
         <h2>🔐 Login</h2>
-
-        <form class="login-form" onsubmit="validateLogin(event)">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="popup" id="popup">
+                    <p>{{ message }}</p>
+                    <button onclick="closePopup()">OK</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form class="login-form" method="POST" action="{% url 'login' %}" onsubmit="return validateLogin(event)">
+            {% csrf_token %}
             <label for="role">Login As:</label>
             <select id="role" name="role">
                 <option value="Student">Student</option>
@@ -146,9 +190,20 @@
             passwordField.type = (passwordField.type === "password") ? "text" : "password";
         }
 
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
         function validateLogin(event) {
-            event.preventDefault();
-            alert("Login successful! (Backend integration required)");
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                event.preventDefault();
+                return false;
+            }
+            return true;
         }
     </script>
 {% endblock %}
